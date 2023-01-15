@@ -1,8 +1,11 @@
-<h2 mat-dialog-title>{{data?.title}}</h2>
+<div  class="buttons">
+  <h2 mat-dialog-title>{{data?.title}}</h2>
+  <button mat-flat-button  [mat-dialog-close]="false"><mat-icon>close</mat-icon></button>
+</div>
 <mat-dialog-content class="mat-typography">
     <p>{{data?.description}}</p>
 </mat-dialog-content>
 <mat-dialog-actions  class="buttons" >
-  <button mat-button class="btn-spacing" [mat-dialog-close]="false">Cancel</button>
-  <button mat-button class="btn-spacing" [mat-dialog-close]="true" cdkFocusInitial>Ok</button>
+  <button mat-mini-fab [ngStyle]="{'transform': 'scale(0.6)','background-color':'red'}"  [mat-dialog-close]="false"><mat-icon>cancel</mat-icon></button>
+  <button mat-mini-fab [ngStyle]="{'transform': 'scale(0.6)','background-color':'green'}"  [mat-dialog-close]="true" cdkFocusInitial><mat-icon>check</mat-icon></button>
 </mat-dialog-actions>

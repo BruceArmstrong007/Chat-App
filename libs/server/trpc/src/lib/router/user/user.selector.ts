@@ -6,6 +6,6 @@ export const selectWithoutCredential = Prisma.validator<Prisma.UserSelect>()({
   image: true,
   id: true,
   password: false,
-  contact: false,
+  contact: true
 })
 

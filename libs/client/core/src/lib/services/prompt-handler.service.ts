@@ -10,7 +10,7 @@ export class PromptHandlerService {
 
   openDialog(data:any){
     const dialogRef = this.dialog.open(PromptComponent, {
-      width: '250px',
+      width: '500px',
       data:data,
     });
     return dialogRef.afterClosed();

@@ -77,8 +77,31 @@ export const getUserProcedure = protectedProcedure
   if(!user){
     return { status : "ERROR", message : "User not found."}
   }
+  const contact = user?.contact;
+  const contacts = [];
+  for(let i = 0; i < contact.length;i++){
+    const cont = await prisma.user.findFirst({
+      where:{
+        id : contact[i]?.contact_id
+      },
+      select : {
+        id : true,
+        username : true,
+        image : true
+      }
+    });
+    contacts.push({
+      ...cont,
+      status : contact[i]?.status
+    })
 
-  return user;
+  }
+
+
+  return {
+    ...user,
+    contact : contacts
+  }
 });
 
 export const updateUserProcedure = protectedProcedure

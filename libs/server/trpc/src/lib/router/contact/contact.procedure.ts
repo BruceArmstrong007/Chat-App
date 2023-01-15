@@ -92,7 +92,7 @@ export const acceptContactProcedure = protectedProcedure
             contact_id : input.user_id
           },
           data:{
-            status : 'received',
+            status : 'friend',
           }
         },
       }
@@ -110,7 +110,7 @@ export const acceptContactProcedure = protectedProcedure
             contact_id : input.contact_id
           },
           data:{
-            status : 'received',
+            status : 'friend',
           }
         },
       }
@@ -119,6 +119,59 @@ export const acceptContactProcedure = protectedProcedure
 
   return {
     status : "SUCCESS",
-    message : "Friend request sent successfully."
+    message : "Friend accepted successfully."
+  };
+});
+
+
+
+export const deleteContactProcedure = protectedProcedure
+.input(
+  zod.object({
+    user_id: zod.number(),
+    contact_id: zod.number(),
+  })
+)
+.mutation(async ({ ctx, input }) => {
+  const { userPayload } = ctx;
+
+  //Unauthorized
+  if (!userPayload) {
+    throw new TRPCError({
+      code: 'UNAUTHORIZED',
+      message : 'Unable to connect, login again.'
+    });
+  }
+
+  // delete contact table
+  await prisma.user.update({
+    where: {
+      id: input.contact_id,
+    },
+    data: {
+      contact:{
+        deleteMany: [{
+          contact_id : input.user_id
+        }]
+      }
+    }
+  });
+
+  await prisma.user.update({
+    where: {
+      id : input.user_id
+    },
+    data: {
+      contact:{
+        deleteMany: [{
+          contact_id : input.contact_id
+        }]
+      }
+    }
+  })
+
+  return {
+    status : "SUCCESS",
+    message : "User unfriend successfully."
   };
 });

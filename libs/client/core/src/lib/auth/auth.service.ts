@@ -1,5 +1,5 @@
 import { IS_LOGGED_STORAGE_KEY } from './auth.config';
-import { inject, Injectable, Provider } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from '@prisma/client';
 import { BehaviorSubject, iif, map, of, switchMap, tap } from 'rxjs';
@@ -17,13 +17,13 @@ export class AuthService {
   private readonly router = inject(Router);
   private readonly token = injectToken();
 
+  $user = this.currentUser$.asObservable();
+
   currentUser(){
     return  this.currentUser$.getValue();
   }
 
   authenticateUser(user: UserData) {
-    console.log(user);
-
     this.currentUser$.next(user);
     localStorage.setItem(IS_LOGGED_STORAGE_KEY, JSON.stringify(true));
   }
@@ -62,7 +62,7 @@ export class AuthService {
     })
   }
 
-  getUser(login : any = null){
+  getUser(login: boolean = false){
     return fromProcedure(this.client.user.getUser.query)().pipe(
       tap((user:any) => {
         this.authenticateUser(user);
