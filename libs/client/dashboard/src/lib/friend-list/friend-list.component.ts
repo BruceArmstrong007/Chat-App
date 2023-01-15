@@ -1,9 +1,10 @@
-import { Subject, distinctUntilChanged } from 'rxjs';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { map, Subject, takeUntil, tap, BehaviorSubject } from 'rxjs';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ListComponent } from './../list/list.component';
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PromptHandlerService } from '@client/core';
+import { PromptHandlerService, AuthService, UserService, RequestHandlerService } from '@client/core';
 
 @Component({
   selector: 'chat-app-friend-list',
@@ -16,86 +17,95 @@ import { PromptHandlerService } from '@client/core';
 })
 export class FriendListComponent {
 
-  prompt = inject(PromptHandlerService);
-  unfriend$ = new Subject();
   chatFriend$ = new Subject();
   cancelRequest$ = new Subject();
-  accept$ = new Subject();
+  acceptRequest$ = new Subject();
 
-  friendList: any[] = [
-    {
-      name: "card name",
-      image: "./assets/images/default.png"
-    },
-    {
-      name: "card name",
-      image: "./assets/images/default.png"
-    },
-    {
-      name: "card name",
-      image: "./assets/images/default.png"
-    },
-    {
-      name: "card name",
-      image: "./assets/images/default.png"
-    },
-    {
-      name: "card name",
-      image: "./assets/images/default.png"
-    },
-    {
-      name: "card name",
-      image: "./assets/images/default.png"
-    },
-    {
-      name: "card name",
-      image: "./assets/images/default.png"
-    },
-    {
-      name: "card name",
-      image: "./assets/images/default.png"
-    },
-    {
-      name: "card name",
-      image: "./assets/images/default.png"
-    },
-    {
-      name: "card name",
-      image: "./assets/images/default.png"
-    },
-    {
-      name: "card name",
-      image: "./assets/images/default.png"
-    },
-  ];
+  sentList$ : any = new BehaviorSubject([]);
+  friendList$ : any = new BehaviorSubject([]);
+  receivedList$ : any = new BehaviorSubject([]);
+  // sentList : any[] = [];
+  // friendList: any[] = [];
+  // receivedList : any[] = [];
+  private readonly requestHandler = inject(RequestHandlerService);
+  private readonly destroy$ = new Subject<void>();
+  private readonly userService = inject(UserService);
+  private readonly authService = inject(AuthService);
+  private readonly changeDetection = inject(ChangeDetectorRef);
+  private readonly snackBar = inject(MatSnackBar);
+  private readonly prompt = inject(PromptHandlerService);
+
+
 
 ngAfterViewInit(){
-    this.unfriend$.pipe(distinctUntilChanged())
-      .subscribe((event:any) => {
-        this.prompt.openDialog({title : 'Confirmation',description:'Do you want to unfriend ?'}).subscribe((result:any)=>{
-          if(result){
-            console.log(event)
-          }
+    this.authService.$user.pipe(takeUntil(this.destroy$)).subscribe((user:any)=>{
+      this.sentList$.next([...this.contactFilter(user?.contact,'sent')]);
+      this.receivedList$.next([...this.contactFilter(user?.contact,'received')]);
+      this.friendList$.next([...this.contactFilter(user?.contact,'friend')]);
+    });
+
+
+    this.acceptRequest$.subscribe((event:any)=>{
+      this.prompt.openDialog({title : 'Confirmation',description:'Do you want to accept friend request ?'}).subscribe((result:any)=>{
+        const contact_id = this.authService.currentUser()?.id;
+        if(result && contact_id){
+         this.userService.acceptUser({contact_id : event.id,user_id : contact_id})
+         .pipe(takeUntil(this.destroy$))
+         .subscribe({
+        next: (data:any) => {
+          const {message,options} = this.requestHandler.SuccessResponseHandler(data?.message,data?.status);
+          this.snackBar.open(message,'Close',options);
+
+          this.changeDetection.markForCheck()
+        },
+        error: (err:any) => {
+          console.log({ err });
+        },
         });
+        }
       });
 
-      
-    this.accept$.pipe(distinctUntilChanged()).subscribe((event:any)=>{
-      console.log(event);
-      
     });
 
-    this.chatFriend$.pipe(distinctUntilChanged()).subscribe((event:any)=>{
+    this.chatFriend$.subscribe((event:any)=>{
       console.log(event);
-      
+
     });
 
-    this.cancelRequest$.pipe(distinctUntilChanged()).subscribe((event:any)=>{
-      console.log(event);
-      
+    this.cancelRequest$.subscribe((eventData:any)=>{
+      const event = eventData?.event;
+      this.prompt.openDialog({title : 'Confirmation',description:'Do you want to cancel request ?'}).subscribe((result:any)=>{
+        const contact_id = this.authService.currentUser()?.id;
+        if(result && contact_id){
+         this.userService.deleteUser({contact_id : event.id,user_id : contact_id})
+         .pipe(takeUntil(this.destroy$))
+         .subscribe({
+        next: (data:any) => {
+          const {message,options} = this.requestHandler.SuccessResponseHandler(data?.message,data?.status);
+          this.snackBar.open(message,'Close',options);
+          // remove , sent , received
+        this.changeDetection.markForCheck()
+        },
+        error: (err:any) => {
+          console.log({ err });
+        },
+      });
+        }
+      });
     });
-    
+
   }
 
 
+  contactFilter(contact:any,key : string){
+    contact = contact.filter((contact:any)=>contact.status === key);
+    if(contact.length > 0)
+      return contact;
+    return [];
+  }
+
+  ngOnDestroy(){
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 }

@@ -31,7 +31,7 @@ export class ListComponent {
   @Output() chatFriend : any = new EventEmitter();
   @Output() cancelRequest : any = new EventEmitter();
   @Output() unfriend : any = new EventEmitter();
-  @Output() accept : any = new EventEmitter();
+  @Output() acceptRequest : any = new EventEmitter();
   @Output() addFriend : any = new EventEmitter();
 
 
@@ -42,7 +42,7 @@ export class ListComponent {
     this.populateList();
     this.textInput$.pipe(distinctUntilChanged()).subscribe((event:any)=>{
       this.findFriend.emit(this.search);
-    });    
+    });
   }
 
   filter(){

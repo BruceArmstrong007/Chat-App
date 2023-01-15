@@ -43,13 +43,13 @@ export class MyChatComponent {
     },
   ];
 
-  
+
 ngAfterViewInit(){
   this.cardClick$.pipe(distinctUntilChanged())
     .subscribe((event:any) => {
       console.log(event);
     });
-    
+
   this.sendMessage$.pipe(distinctUntilChanged())
   .subscribe((event:any) => {
     console.log(event);

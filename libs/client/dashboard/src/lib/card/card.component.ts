@@ -20,9 +20,9 @@ export class CardComponent {
   @Output() chatFriend : any = new EventEmitter();
   @Output() cancelRequest : any = new EventEmitter();
   @Output() unfriend : any = new EventEmitter();
-  @Output() accept : any = new EventEmitter();
+  @Output() acceptRequest : any = new EventEmitter();
   @Output() addFriend : any = new EventEmitter();
 
-  
+
 
 }

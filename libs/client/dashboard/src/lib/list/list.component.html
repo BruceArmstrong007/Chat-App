@@ -17,7 +17,7 @@
   <div class="h-5/6 w-full py-4 p-2">
       <div class="w-full h-full px-4 mx-auto overflow-auto">
       <div *ngIf="tempList.length > 0;else elseBlock" class="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 gap-6 p-2">
-        <chat-app-card [section]="section" *ngFor="let card of tempList" [card]="card" (addFriend)="addFriend.emit($event)" (accept)="accept.emit($event)" (unfriend)="unfriend.emit($event)" (cancelRequest)="cancelRequest.emit($event)" (chatFriend)="chatFriend.emit($event)" (cardClick)="cardClick.emit($event)"></chat-app-card>
+        <chat-app-card [section]="section" *ngFor="let card of tempList" [card]="card" (addFriend)="addFriend.emit($event)" (acceptRequest)="acceptRequest.emit($event)" (unfriend)="unfriend.emit($event)" (cancelRequest)="cancelRequest.emit($event)" (chatFriend)="chatFriend.emit($event)" (cardClick)="cardClick.emit($event)"></chat-app-card>
       </div>
       <ng-template #elseBlock>
         <div class="w-full h-full flex justify-center items-center">
