@@ -1,4 +1,4 @@
-import { ActivatedRoute, RouterOutlet } from '@angular/router';
+import { RouterOutlet } from '@angular/router';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -11,12 +11,4 @@ import { CommonModule } from '@angular/common';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DashboardComponent {
-  constructor(private route: ActivatedRoute){
-
-  }
-
-  ngOnInit(){
-    
-    console.log(this.route.snapshot.data);
-  }
 }

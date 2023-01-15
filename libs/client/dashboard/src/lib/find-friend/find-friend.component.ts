@@ -34,7 +34,7 @@ export class FindFriendComponent {
         this.friendList = [];
         return;
       }
-      this.userService.findUser({username : event}).pipe(map((userList:any)=> userList.filter((user:any)=> user.id != this.authService.currentUser())),takeUntil(this.destroy$))
+      this.userService.findUser({username : event}).pipe(map((userList:any)=> userList.filter((user:any)=> user.id != this.authService.currentUser()?.id)),takeUntil(this.destroy$))
       .subscribe({
         next: (data:any) => {;
          this.friendList = data;

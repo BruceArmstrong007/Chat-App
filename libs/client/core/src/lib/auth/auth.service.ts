@@ -9,21 +9,21 @@ import { injectClient, injectToken } from '../core.di';
 type UserData = Omit<User, 'password' | 'refreshToken'>;
 
 @Injectable({
-  providedIn: 'any',
+  providedIn: 'root',
 })
 export class AuthService {
-  private readonly currentUser$ = new BehaviorSubject<null | UserData>(null);
+  currentUser$ = new BehaviorSubject<null | UserData>(null);
   private readonly client = injectClient();
   private readonly router = inject(Router);
   private readonly token = injectToken();
 
-  readonly user$ = this.currentUser$.asObservable();
-
   currentUser(){
-    return this.currentUser$.getValue() ?? '';
+    return  this.currentUser$.getValue();
   }
 
   authenticateUser(user: UserData) {
+    console.log(user);
+
     this.currentUser$.next(user);
     localStorage.setItem(IS_LOGGED_STORAGE_KEY, JSON.stringify(true));
   }
@@ -84,5 +84,5 @@ export class AuthService {
     localStorage.clear();
   }
 
-  
+
 }
