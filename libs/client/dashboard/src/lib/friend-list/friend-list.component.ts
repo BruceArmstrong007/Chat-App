@@ -21,12 +21,9 @@ export class FriendListComponent {
   cancelRequest$ = new Subject();
   acceptRequest$ = new Subject();
 
-  sentList$ : any = new BehaviorSubject([]);
-  friendList$ : any = new BehaviorSubject([]);
-  receivedList$ : any = new BehaviorSubject([]);
-  // sentList : any[] = [];
-  // friendList: any[] = [];
-  // receivedList : any[] = [];
+  friendList: any[] = [];
+  sentList: any[] = [];
+  receivedList: any[] = [];
   private readonly requestHandler = inject(RequestHandlerService);
   private readonly destroy$ = new Subject<void>();
   private readonly userService = inject(UserService);
@@ -38,11 +35,12 @@ export class FriendListComponent {
 
 
 ngAfterViewInit(){
-    this.authService.$user.pipe(takeUntil(this.destroy$)).subscribe((user:any)=>{
-      this.sentList$.next([...this.contactFilter(user?.contact,'sent')]);
-      this.receivedList$.next([...this.contactFilter(user?.contact,'received')]);
-      this.friendList$.next([...this.contactFilter(user?.contact,'friend')]);
-    });
+    this.authService.$user.pipe(takeUntil(this.destroy$)).subscribe(((user:any)=>{
+      this.sentList = this.contactFilter(user?.contact,'sent');
+      this.friendList = this.contactFilter(user?.contact,'friend');
+      this.receivedList = this.contactFilter(user?.contact,'received');
+      this.changeDetection.detectChanges();
+    }));
 
 
     this.acceptRequest$.subscribe((event:any)=>{
@@ -55,8 +53,6 @@ ngAfterViewInit(){
         next: (data:any) => {
           const {message,options} = this.requestHandler.SuccessResponseHandler(data?.message,data?.status);
           this.snackBar.open(message,'Close',options);
-
-          this.changeDetection.markForCheck()
         },
         error: (err:any) => {
           console.log({ err });
@@ -83,8 +79,6 @@ ngAfterViewInit(){
         next: (data:any) => {
           const {message,options} = this.requestHandler.SuccessResponseHandler(data?.message,data?.status);
           this.snackBar.open(message,'Close',options);
-          // remove , sent , received
-        this.changeDetection.markForCheck()
         },
         error: (err:any) => {
           console.log({ err });

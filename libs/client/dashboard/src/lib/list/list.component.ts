@@ -25,6 +25,8 @@ export class ListComponent {
   @Input() set list(value: any[]) {
     this._list = value;
     this.populateList();
+    console.log(this.tempList);
+
   }
   @Output() cardClick : any = new EventEmitter();
   @Output() findFriend : any = new EventEmitter();

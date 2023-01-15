@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { Contacts, User } from '@prisma/client';
-import { tap } from 'rxjs';
+import { map, tap, switchMap, iif, of } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
 import { fromProcedure } from '../client/utils';
 import { injectClient } from '../core.di';
@@ -23,32 +23,19 @@ export class UserService {
 
   addUser(data:Pick<Contacts, 'user_id' | 'contact_id'>) {
     return fromProcedure(this.client.contact.friendRequest.mutate)(data).pipe(
-      tap((response:any) => {
-        if(response.status === "SUCCESS"){
-          this.authService.getUser();
-        }
-      })
+      switchMap((response:any) => iif(() => response.status === 'SUCCESS', this.authService.getUser().pipe(map((res:any)=> of(response))), of(response))),
     )
   }
 
   acceptUser(data:Pick<Contacts, 'user_id' | 'contact_id'>){
     return fromProcedure(this.client.contact.acceptRequest.mutate)(data).pipe(
-      tap((response:any) => {
-        if(response.status === "SUCCESS"){
-          setTimeout(()=>{this.authService.getUser();},500)
-        }
-      })
+      switchMap((response:any) => iif(() => response.status === 'SUCCESS', this.authService.getUser().pipe(map((res:any)=> of(response))), of(response))),
     )
   }
 
   deleteUser(data:Pick<Contacts, 'user_id' | 'contact_id'>){
     return fromProcedure(this.client.contact.deleteFriend.mutate)(data).pipe(
-      tap((response:any) => {
-        if(response.status === "SUCCESS"){
-          setTimeout(()=>{this.authService.getUser();},500)
-
-        }
-      })
+      switchMap((response:any) => iif(() => response.status === 'SUCCESS', this.authService.getUser().pipe(map((res:any)=> of(response))), of(response))),
     )
   }
 
