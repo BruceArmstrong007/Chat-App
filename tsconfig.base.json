@@ -14,7 +14,13 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@client/auth": ["libs/client/auth/src/index.ts"],
+      "@client/core": ["libs/client/core/src/index.ts"],
+      "@client/dashboard": ["libs/client/dashboard/src/index.ts"],
+      "@client/ui": ["libs/client/ui/src/index.ts"],
+      "@server/trpc": ["libs/server/trpc/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }

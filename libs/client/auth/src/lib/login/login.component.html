@@ -1,0 +1,38 @@
+<div class="content flex justify-center items-center py-2">
+  <form [formGroup]="loginForm" #contact="ngForm" (ngSubmit)="send()" class="w-11/12 lg:w-3/5 bg-gray-100 dark:bg-gray-700 shadow-md rounded-xl px-8 pt-6 pb-8 mb-4 text-slate-900 dark:text-slate-50 text-lg">
+    <div class="w-full flex justify-center items-center p-2">
+      <h2>Login</h2>
+    </div>
+    <div class="p-2">
+      <mat-form-field appearance="fill" class="w-full">
+        <mat-label>Username</mat-label>
+        <input matInput formControlName="username">
+        <mat-icon [ngClass]="{'text-blue-700' : !f['username'].valid, 'text-green-400' :  f['username'].valid}" matSuffix>account_circle</mat-icon>
+        <mat-hint>Enter your username.</mat-hint>
+        <mat-error *ngIf="f['username'].hasError('required')">
+          Username is <strong>required</strong>
+        </mat-error>
+        <mat-error *ngIf="f['username'].hasError('minlength') || f['username'].hasError('maxlength')">
+          Username should have <strong>8 - 15 characters.</strong>
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="p-2">
+      <mat-form-field appearance="fill" class="w-full">
+        <mat-label>Password</mat-label>
+        <input  [type]="hide ? 'password' : 'text'"  matInput formControlName="password">
+        <mat-icon [ngClass]="{'text-blue-700' : !f['password'].valid, 'text-green-400' :  f['password'].valid}" matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+        <mat-hint>Enter your password.</mat-hint>
+        <mat-error *ngIf="f['password'].hasError('required')">
+          Password is <strong>required</strong>
+        </mat-error>
+        <mat-error *ngIf="f['password'].hasError('minlength') || f['password'].hasError('maxlength')">
+          Password should have <strong>8 - 32 characters.</strong>
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="w-full flex justify-center items-center p-2">
+      <button mat-flat-button color="primary" type="submit">Submit</button>
+    </div>
+  </form>
+  </div>

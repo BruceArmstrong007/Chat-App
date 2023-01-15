@@ -1,0 +1,38 @@
+<header class="header w-full tile">
+  <nav class="px-4 md:px-6 py-2.5">
+      <div class="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
+          <a [routerLink]="['/']" class="flex items-center">
+            <svg aria-hidden="true" focusable="false" data-prefix="far" data-icon="comment-alt" class="w-6 h-6  dark:text-white" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+              <path fill="currentColor" d="M448 0H64C28.7 0 0 28.7 0 64v288c0 35.3 28.7 64 64 64h96v84c0 7.1 5.8 12 12 12 2.4 0 4.9-.7 7.1-2.4L304 416h144c35.3 0 64-28.7 64-64V64c0-35.3-28.7-64-64-64zm16 352c0 8.8-7.2 16-16 16H288l-12.8 9.6L208 428v-60H64c-8.8 0-16-7.2-16-16V64c0-8.8 7.2-16 16-16h384c8.8 0 16 7.2 16 16v288z"></path>
+            </svg> &nbsp;
+            <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white">Chat App </span>
+          </a>
+          <div class="flex justify-evenly items-center md:order-2">
+            <mat-slide-toggle #darkModeSwitch color="secondary" (change)="switchMode()"></mat-slide-toggle>
+              <a *ngIf="!authService.isUserLoggedIn()" [routerLink]="['/login']" routerLinkActive="hidden" mat-button><span class="dark:text-white">Login</span></a>
+              <a  *ngIf="!authService.isUserLoggedIn()" [routerLink]="['/register']" routerLinkActive="hidden" mat-flat-button color="primary">Register</a>
+              <button *ngIf="authService.isUserLoggedIn()" (click)="logout()" type="button" mat-flat-button color="warn">Logout</button>
+
+              <button *ngIf="authService.isUserLoggedIn()" (click)="menu()" data-collapse-toggle="mobile-menu-2" type="button" class="inline-flex items-center p-2 ml-1 text-sm text-gray-500 rounded-sm md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="mobile-menu-2" aria-expanded="false">
+                  <span class="sr-only">Open menu</span>
+                  <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path></svg>
+                  <svg class="hidden w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+              </button>
+          </div>
+          <div *ngIf="authService.isUserLoggedIn() && ((toggleMenu && isMobile) || !isMobile)"class=" justify-between items-center w-full md:flex md:w-auto md:order-1" #mobileMenu>
+              <ul class="flex mt-2 flex-col font-medium md:flex-row md:space-x-8 md:mt-0">
+                  <li class="index">
+                      <a [routerLink]="['/user/my-chats']" (click)="menu()" [routerLinkActiveOptions]="{exact: true}" routerLinkActive="rounded-sm md:text-white text-white md:dark:text-white bg-blue-500 md:bg-blue-500 md:dark:bg-blue-500" class="dark:text-white text-black bg-white dark:bg-black block px-2 py-1 md:px-2 md:py-1">My Chats</a>
+                  </li>
+                  <li class="index">
+                      <a [routerLink]="['/user/friend-list']" (click)="menu()" [routerLinkActiveOptions]="{exact: true}" routerLinkActive="rounded-sm md:text-white text-white md:dark:text-white bg-blue-500 md:bg-blue-500 md:dark:bg-blue-500" class="dark:text-white text-black bg-white dark:bg-black block px-2 py-1 md:px-2 md:py-1">Friend list</a>
+                  </li>
+                  <li class="index">
+                      <a [routerLink]="['/user/find-friend']" (click)="menu()" [routerLinkActiveOptions]="{exact: true}" routerLinkActive="rounded-sm md:text-white text-white md:dark:text-white bg-blue-500 md:bg-blue-500 md:dark:bg-blue-500" class="dark:text-white text-black bg-white dark:bg-black block px-2 py-1 md:px-2 md:py-1">Find Friend</a>
+                  </li>
+              </ul>
+          </div>
+      </div>
+  </nav>
+</header>
+

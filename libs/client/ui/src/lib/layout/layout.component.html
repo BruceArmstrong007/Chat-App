@@ -1,0 +1,11 @@
+<div [ngClass]="{'dark': toggle.darkmode}" class="w-full h-full flex flex-col">
+  <div class="tile bg-white border-slate-100 dark:bg-slate-800 dark:border-slate-500">
+    <chat-app-header></chat-app-header>
+  </div>
+  <div class="route bg-white border-slate-100 dark:bg-slate-800 dark:border-slate-500">
+    <router-outlet></router-outlet>
+  </div>
+  <div class="tile bg-white border-slate-100 dark:bg-slate-800 dark:border-slate-500">
+    <chat-app-footer></chat-app-footer>
+  </div>
+</div>

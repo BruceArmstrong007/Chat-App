@@ -1,0 +1,15 @@
+<div class="flex flex-wrap">
+  <div class="w-full md:w-1/2 content p-4">
+    <div class="w-full h-full rounded-md bg-gray-100 dark:bg-gray-700 shadow-md  text-slate-900 dark:text-slate-50 text-lg">
+      <chat-app-list (chatFriend)="chatFriend$.next($event)" (unfriend)="unfriend$.next($event)" [section]="'Friends'" [list]="friendList"></chat-app-list>
+    </div>
+  </div>
+  <div class="w-full md:w-1/2 content p-4">
+    <div class="w-full h-1/2 rounded-t-md bg-gray-100 dark:bg-gray-700 shadow-md  text-slate-900 dark:text-slate-50 text-lg">
+      <chat-app-list (cancelRequest)="cancelRequest$.next($event)" [section]="'Sent Requests'" [list]="friendList"></chat-app-list>
+    </div>
+    <div class="w-full h-1/2 rounded-b-md bg-gray-100 dark:bg-gray-700 shadow-md  text-slate-900 dark:text-slate-50 text-lg">
+      <chat-app-list (accept)="accept$.next($event)" (cancelRequest)="cancelRequest$.next($event)"  [section]="'Received Requests'" [list]="friendList"></chat-app-list>
+    </div>
+  </div>
+</div>

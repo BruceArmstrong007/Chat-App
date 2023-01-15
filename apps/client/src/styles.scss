@@ -1,1 +1,65 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@import '~@angular/material/prebuilt-themes/indigo-pink.css';
 /* You can add global styles to this file, and also import other style files */
+
+* {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+body {
+  overflow: auto;
+  width: 100%;
+  height: 100%;
+}
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar:hover  {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 3px grey;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-track:hover {
+  box-shadow: inset 0 0 3px grey;
+  border-radius: 3px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgb(69, 69, 69);
+  border-radius: 3px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(99, 99, 99);
+}
+
+html, body { min-height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+.mat-mdc-snack-bar-container {
+  --mat-mdc-snack-bar-button-color: #ffffff;
+  --mdc-snackbar-supporting-text-color: #ffffff;
+
+  &.notification-error {
+    --mdc-snackbar-container-color: #f23a2f;
+  }
+
+  &.notification-success {
+    --mdc-snackbar-container-color: #43a446;
+  }
+}
+

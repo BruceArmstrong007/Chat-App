@@ -1,0 +1,26 @@
+
+<div class="bg-blue-500 shadow-sm rounded-sm" (click)="cardClick.emit(card)" [ngClass]="{'hover:bg-blue-600': section === 'My Chats'}">
+  <div class=" flex justify-center items-center">
+    <img class="w-10 h-10 rounded-full p-1" [src]="card?.image ? card?.image : './assets/images/default.png'" alt="">
+     <div class="text-sm w-4/5 p-1">
+       <p class="text-white text-sm">{{card?.username}}</p>
+     </div>
+   </div>
+   <div *ngIf="message" class="p-1">
+      <p></p>
+   </div>
+   <div *ngIf="section === 'Friends'" class="flex justify-evenly items-center">  
+    <button (click)="unfriend.emit(card)" mat-mini-fab [ngStyle]="{'transform': 'scale(0.6)','background-color': 'red'}"><mat-icon>close</mat-icon></button>
+    <button (click)="chatFriend.emit(card)" mat-mini-fab [ngStyle]="{'transform': 'scale(0.6)','background-color': 'green'}"><mat-icon>chat_bubble_outline</mat-icon></button>
+ </div>
+   <div *ngIf="section === 'Sent Requests'" class="flex justify-center items-center">
+    <button (click)="cancelRequest.emit(card)" mat-mini-fab [ngStyle]="{'transform': 'scale(0.6)','background-color': 'red'}"><mat-icon>cancel</mat-icon></button>
+   </div>
+   <div *ngIf="section === 'Received Requests'" class="flex justify-evenly items-center">
+    <button (click)="cancelRequest.emit(card)" mat-mini-fab [ngStyle]="{'transform': 'scale(0.6)','background-color': 'red'}"><mat-icon>cancel</mat-icon></button>
+    <button (click)="accept.emit(card)" mat-mini-fab [ngStyle]="{'transform': 'scale(0.6)','background-color': 'green'}"><mat-icon>check</mat-icon></button>
+   </div>
+   <div *ngIf="section === 'Find Friends'" class="flex justify-evenly items-center">
+    <button (click)="addFriend.emit(card)" mat-mini-fab [ngStyle]="{'transform': 'scale(0.6)','background-color': 'green'}"><mat-icon>add</mat-icon></button>
+   </div>
+</div>
