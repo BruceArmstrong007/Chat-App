@@ -23,19 +23,19 @@ export class UserService {
 
   addUser(data:Pick<Contacts, 'user_id' | 'contact_id'>) {
     return fromProcedure(this.client.contact.friendRequest.mutate)(data).pipe(
-      switchMap((response:any) => iif(() => response.status === 'SUCCESS', this.authService.getUser().pipe(map((res:any)=> of(response))), of(response))),
+      switchMap((response:any) => iif(() => response.status === 'SUCCESS', this.authService.getUser().pipe(map((res:any)=> (response))), (response))),
     )
   }
 
   acceptUser(data:Pick<Contacts, 'user_id' | 'contact_id'>){
     return fromProcedure(this.client.contact.acceptRequest.mutate)(data).pipe(
-      switchMap((response:any) => iif(() => response.status === 'SUCCESS', this.authService.getUser().pipe(map((res:any)=> of(response))), of(response))),
+      switchMap((response:any) => iif(() => response.status === 'SUCCESS', this.authService.getUser().pipe(map((res:any)=> (response))), (response))),
     )
   }
 
   deleteUser(data:Pick<Contacts, 'user_id' | 'contact_id'>){
     return fromProcedure(this.client.contact.deleteFriend.mutate)(data).pipe(
-      switchMap((response:any) => iif(() => response.status === 'SUCCESS', this.authService.getUser().pipe(map((res:any)=> of(response))), of(response))),
+      switchMap((response:any) => iif(() => response.status === 'SUCCESS', this.authService.getUser().pipe(map((res:any)=> (response))), (response))),
     )
   }
 

@@ -38,6 +38,8 @@ export class FindFriendComponent {
          .pipe(takeUntil(this.destroy$))
          .subscribe({
         next: (data:any) => {
+          console.log(data);
+
           const {message,options} = this.requestHandler.SuccessResponseHandler(data?.message,data?.status);
           this.snackBar.open(message,'Close',options);
 
@@ -50,7 +52,7 @@ export class FindFriendComponent {
             }
             return user;
           });
-          this.changeDetection.markForCheck();
+          this.changeDetection.detectChanges();
         },
         error: (err:any) => {
           console.log({ err });
@@ -82,7 +84,7 @@ export class FindFriendComponent {
           }
           return user;
         });
-        this.changeDetection.markForCheck();
+        this.changeDetection.detectChanges();
         },
         error: (err:any) => {
           console.log({ err });

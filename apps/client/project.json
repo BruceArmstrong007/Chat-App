@@ -20,7 +20,7 @@
         "tsConfig": "apps/client/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "assets": [
-          "apps/client/src/favicon.ico",
+          "apps/client/src/assets/images/chat.png",
           "apps/client/src/assets"
         ],
         "styles": [
