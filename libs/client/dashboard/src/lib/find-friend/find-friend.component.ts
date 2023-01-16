@@ -38,8 +38,6 @@ export class FindFriendComponent {
          .pipe(takeUntil(this.destroy$))
          .subscribe({
         next: (data:any) => {
-          console.log(data);
-
           const {message,options} = this.requestHandler.SuccessResponseHandler(data?.message,data?.status);
           this.snackBar.open(message,'Close',options);
 

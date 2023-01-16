@@ -1,9 +1,23 @@
 <div class="w-full h-full flex flex-col">
-  <div class="h-5/6 w-full p-2 overflow-auto">
-
+  <div class="h-5/6 w-full p-2 overflow-auto" #scrollMe>
+    <div *ngFor="let chat of _messageList; let last = last" class="w-full">
+      <ng-container *ngIf="chat.from === this.currentUser?.id;else contactMsg">
+        <div class="p-2 flex justify-end">
+          <chat-app-card [card]="{message : chat?.message , created_at : chat?.created_at, username : currentUser?.username, image : currentUser?.image}"></chat-app-card>
+        </div>
+      </ng-container>
+      <ng-template #contactMsg>
+        <div class="p-2 flex justify-start">
+          <chat-app-card [card]="{message : chat?.message , created_at : chat?.created_at, username : contactUser?.username, image : contactUser?.image}"></chat-app-card>
+        </div>
+      </ng-template>
+    </div>
+    <div *ngIf="!contactUser" class="w-full h-full flex justify-center items-center">
+      <h3 class="text-slate-500">Select your friend to chat 💬</h3>
+    </div>
   </div>
   <div class="h-1/6 w-full p-2">
-    <div class="w-full h-full">
+    <div class="w-full h-full" *ngIf="contactUser">
       <mat-form-field appearance="fill" class="w-11/12">
         <mat-label>{{messageText}}</mat-label>
         <input matInput [(ngModel)]="message">

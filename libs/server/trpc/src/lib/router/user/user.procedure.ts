@@ -75,7 +75,7 @@ export const getUserProcedure = protectedProcedure
 
   //User not found
   if(!user){
-    return { status : "ERROR", message : "User not found."}
+    return { status : "ERROR", message : "User not found."};
   }
   const contact = user?.contact;
   const contacts = [];

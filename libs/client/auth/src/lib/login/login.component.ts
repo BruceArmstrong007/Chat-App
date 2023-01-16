@@ -51,6 +51,8 @@ export class LoginComponent {
           this.snackBar.open(message,'Close',options);
         },
         error: err => {
+          console.log(err);
+
         },
       });
   }

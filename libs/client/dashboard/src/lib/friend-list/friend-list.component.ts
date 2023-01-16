@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subject, takeUntil,} from 'rxjs';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -31,6 +32,7 @@ export class FriendListComponent {
   private readonly changeDetection = inject(ChangeDetectorRef);
   private readonly snackBar = inject(MatSnackBar);
   private readonly prompt = inject(PromptHandlerService);
+  private readonly router = inject(Router);
 
 
 
@@ -64,7 +66,8 @@ ngAfterViewInit(){
     });
 
     this.chatFriend$.subscribe((event:any)=>{
-      console.log(event);
+      const contact : object = {...event}
+      this.router.navigateByUrl('/user', { state : contact });
 
     });
 

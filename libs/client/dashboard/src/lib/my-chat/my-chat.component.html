@@ -1,13 +1,13 @@
 
 <div class="flex flex-wrap">
-  <div class="w-full md:w-2/6 content p-4">
+  <div class="w-full md:w-5/12 content p-4">
     <div class="w-full h-full rounded-md bg-gray-100 dark:bg-gray-700 shadow-md  text-slate-900 dark:text-slate-50 text-lg">
       <chat-app-list [section]="'Chats'" [list]="friendList" (cardClick)="cardClick$.next($event)"></chat-app-list>
     </div>
   </div>
-  <div class="w-full md:w-4/6 content p-4">
+  <div class="w-full md:w-7/12 content p-4">
     <div class="w-full h-full rounded-md bg-gray-100 dark:bg-gray-700 shadow-md  text-slate-900 dark:text-slate-50 text-lg">
-      <chat-app-chat (sendMessage)="sendMessage$.next($event)"></chat-app-chat>
+      <chat-app-chat [currentUser]="authService.currentUser()" [contactUser]="contactUser" [messageList]="messageList" (sendMessage)="sendMessage$.next($event)"></chat-app-chat>
     </div>
   </div>
 </div>

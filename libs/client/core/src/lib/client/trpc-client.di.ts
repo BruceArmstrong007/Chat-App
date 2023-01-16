@@ -2,11 +2,17 @@ import { Router } from '@angular/router';
 import { RequestHandlerService } from './../services/request-handler.service';
 import { inject, InjectionToken, Provider } from '@angular/core';
 import type { AppRouter } from '@server/trpc';
-import { createTRPCProxyClient, httpBatchLink, httpLink } from '@trpc/client';
+import { createTRPCProxyClient, httpBatchLink, httpLink, splitLink } from '@trpc/client';
+import { createWSClient, wsLink } from '@trpc/client';
 import { injectConfig } from '../config/config.di';
 import { injectToken } from './token.di';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService } from '../auth/auth.service';
+
+// create persistent WebSocket connection
+export const wsClient = createWSClient({
+  url: `ws://localhost:3001`,
+});
 
 const TRPC_PROVIDER = new InjectionToken<ReturnType<typeof createTRPCProxyClient<AppRouter>>>('__TRPC_PROVIDER__');
 export const injectClient = () => inject(TRPC_PROVIDER);
@@ -20,46 +26,58 @@ export const provideClient = (): Provider => ({
     const router = inject(Router);
     return createTRPCProxyClient<AppRouter>({
       links: [
-        httpLink({
-          url: config.API_URL,
-          async fetch(url, args) {
-            const response = await fetch(url, { ...args, credentials: 'include' });
-            if (!response.ok) {
-              const json = await response.json();
-              const error = json.error;
-              const errorCode = (typeof error?.code == 'number') ?error?.data?.code : error?.code;
-              if (error?.message === 'TOKEN_EXPIRED') {
-                const refreshUrl = `${config.API_URL}/auth.accessToken?batch=1&input={}`;
-                const refreshResponse = await fetch(refreshUrl, { credentials: 'include' });
-                const refreshJson = await refreshResponse.json();
-                const accessToken = refreshJson.result.data.token;
-                token.setAccessToken(accessToken);
-                return await fetch(url, {
-                  ...args,
-                  credentials: 'include',
-                  headers: {
-                    ...args?.headers,
-                    Authorization: accessToken,
-                  },
-                });
-              }
-              if(errorCode === 'UNAUTHORIZED'){
-                localStorage.clear();
-                router.navigateByUrl('/');
-              }
-              const {message , options} = responseHandler.ErrorResponseHandler(errorCode,error?.message);
-              console.log(message,options);
-              snackBar.open(message,'Close', options);
+         // call subscriptions through websockets and the rest over http
+       splitLink({
+      condition(op) {
+        return op.type === 'subscription';
+      },
+      true: wsLink({
+        client: wsClient,
+      }),
+      false:
+      httpLink({
+        url: config.API_URL,
+        async fetch(url, args) {
+          const response = await fetch(url, { ...args, credentials: 'include' });
+          if (!response.ok) {
+            const json = await response.json();
+            const error = json.error;
+            const errorCode = (typeof error?.code == 'number') ?error?.data?.code : error?.code;
+            if (error?.message === 'TOKEN_EXPIRED') {
+              const refreshUrl = `${config.API_URL}/auth.accessToken?batch=1&input={}`;
+              const refreshResponse = await fetch(refreshUrl, { credentials: 'include' });
+              const refreshJson = await refreshResponse.json();
+              const accessToken = refreshJson.result.data.token;
+              token.setAccessToken(accessToken);
+              return await fetch(url, {
+                ...args,
+                credentials: 'include',
+                headers: {
+                  ...args?.headers,
+                  Authorization: accessToken,
+                },
+              });
             }
-            return response;
-          },
-          headers() {
-            return {
-              Authorization: token.getAccessToken(),
-            };
-          },
-        })
+            if(errorCode === 'UNAUTHORIZED'){
+              localStorage.clear();
+              router.navigateByUrl('/');
+            }
+            const {message , options} = responseHandler.ErrorResponseHandler(errorCode,error?.message);
+            console.log(message,options);
+            snackBar.open(message,'Close', options);
+          }
+          return response;
+        },
+        headers() {
+          return {
+            Authorization: token.getAccessToken(),
+          };
+        },
+      }),
+    }),
       ],
     });
   },
 });
+
+

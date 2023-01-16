@@ -14,7 +14,6 @@ import { EventEmitter } from '@angular/core';
 })
 export class CardComponent {
   @Input() card: any;
-  @Input() message!: any;
   @Input() section!:string;
   @Output() cardClick : any = new EventEmitter();
   @Output() chatFriend : any = new EventEmitter();

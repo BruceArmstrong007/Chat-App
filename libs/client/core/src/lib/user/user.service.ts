@@ -1,7 +1,8 @@
 import { inject, Injectable } from '@angular/core';
 import { Contacts, User } from '@prisma/client';
-import { map, tap, switchMap, iif, of } from 'rxjs';
+import { map, tap, switchMap, iif, of, Subject } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
+import { wsClient } from '../client/trpc-client.di';
 import { fromProcedure } from '../client/utils';
 import { injectClient } from '../core.di';
 
@@ -14,7 +15,9 @@ type UserData = Omit<User, 'password' | 'refreshToken'>;
 export class UserService {
   private readonly client = injectClient();
   private readonly authService = inject(AuthService);
+  private readonly chatMessage$ = new Subject();
 
+  readonly chat$ = this.chatMessage$.asObservable();
 
 
   findUser(data:Pick<User, 'username'>) {
@@ -40,4 +43,42 @@ export class UserService {
   }
 
 
+  connectWs(id : any){
+      const setMessage = (data: any) =>{
+        this.chatMessage$.next(data);
+      }
+     const subscription = this.client.chats.onChat.subscribe(id,{
+      onData(data) {
+        // ^ note that `data` here is inferred
+      setMessage(data);
+      },
+      onError(err) {
+        console.error('error', err);
+      },
+      onComplete() {
+        subscription.unsubscribe();
+      },
+    });
+
+    wsClient.close();
+  }
+
+  chat(data:any){
+    return fromProcedure(this.client.chats.chat.mutate)(data)
+  }
+
+  getChats(data:any){
+    return fromProcedure(this.client.chats.getChat.query)(data)
+  }
+
+
+  generateRoomID(id1:any,id2:any){
+    let id = '';
+    if(id1 > id2){
+      id = id2.toString()+'-'+id1.toString();
+    }else{
+      id = id1.toString()+'-'+id2.toString();
+    }
+    return id;
+  }
 }

@@ -30,7 +30,7 @@ export const createContext = async (context: trpcExpress.CreateExpressContextOpt
 type Context = inferAsyncReturnType<typeof createContext>;
 const t = initTRPC.context<Context>().create();
 
-const isAuthed = t.middleware(({ next, ctx }) => {
+const isAuthed = t.middleware(({ next,  ctx }) => {
   if (ctx.isTokenExpired) {
     throw new TRPCError({
       code: 'UNAUTHORIZED',
@@ -38,13 +38,17 @@ const isAuthed = t.middleware(({ next, ctx }) => {
     });
   }
   if (!ctx.userPayload) {
-    throw new TRPCError({ code: 'UNAUTHORIZED' });
+    throw new TRPCError({
+    code: 'UNAUTHORIZED',
+    message : 'Unable to connect, login again.'
+   });
   }
 
   return next({
     ctx,
   });
 });
+
 
 export const router = t.router;
 export const middleware = t.middleware;
