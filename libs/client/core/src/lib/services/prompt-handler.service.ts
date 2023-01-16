@@ -1,4 +1,4 @@
-import { PromptComponent } from './../client/component/prompt/prompt.component';
+import { PromptComponent } from '@client/shared';
 import { inject, Injectable } from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
 @Injectable({

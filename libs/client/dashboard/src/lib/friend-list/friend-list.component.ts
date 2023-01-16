@@ -2,7 +2,7 @@ import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subject, takeUntil,} from 'rxjs';
 import { MatDialogModule } from '@angular/material/dialog';
-import { ListComponent } from './../list/list.component';
+import { ListComponent } from '@client/shared';
 import { ChangeDetectionStrategy, Component, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PromptHandlerService, AuthService, UserService, RequestHandlerService } from '@client/core';

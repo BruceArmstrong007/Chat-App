@@ -1,8 +1,8 @@
 import { UserService, AuthService } from '@client/core';
 import { Location } from '@angular/common';
 import { Subject,  takeUntil } from 'rxjs';
-import { ChatComponent } from './../chat/chat.component';
-import { ListComponent } from './../list/list.component';
+import { ChatComponent } from '@client/shared';
+import { ListComponent } from '@client/shared';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
