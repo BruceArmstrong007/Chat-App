@@ -15,7 +15,12 @@
               </ng-template>
               <a *ngIf="!authService.isUserLoggedIn()" [routerLink]="['/login']" routerLinkActive="hidden" mat-button><span class="dark:text-white">Login</span></a>
               <a  *ngIf="!authService.isUserLoggedIn()" [routerLink]="['/register']" routerLinkActive="hidden" mat-flat-button color="primary">Register</a>
-              <button *ngIf="authService.isUserLoggedIn()" (click)="logout()" type="button" mat-flat-button color="warn">Logout</button>
+
+
+              <button *ngIf="authService.isUserLoggedIn()" [ngStyle]="{'background': 'transparent'}" [matMenuTriggerFor]="profileMenu" type="button" mat-mini-fab>
+                <img class="rounded-xl" alt="" [src]="user?.image ? user?.image : './assets/images/default.png'">
+              </button>
+
               <button *ngIf="authService.isUserLoggedIn()" (click)="menu()" data-collapse-toggle="mobile-menu-2" type="button" class="inline-flex items-center p-2 ml-1 text-sm text-gray-500 rounded-sm md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="mobile-menu-2" aria-expanded="false">
                   <span class="sr-only">Open menu</span>
                   <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path></svg>
@@ -25,7 +30,7 @@
           <div *ngIf="authService.isUserLoggedIn() && ((toggleMenu && isMobile) || !isMobile)"class=" justify-between items-center w-full md:flex md:w-auto md:order-1" #mobileMenu>
               <ul class="flex mt-2 flex-col font-medium md:flex-row md:space-x-8 md:mt-0">
                   <li class="index">
-                      <a [routerLink]="['/user/my-chats']" (click)="menu()" [routerLinkActiveOptions]="{exact: true}" [routerLinkActiveOptions]="{exact: true}" routerLinkActive="rounded-sm dark:bg-blue-500 bg-blue-500 md:bg-blue-500 md:dark:bg-blue-500 md:text-white md:dark:text-black" class="dark:text-white text-black bg-white dark:bg-black hover:bg-slate-200 dark:hover:bg-gray-600 block px-2 py-1 md:px-2 md:py-1">My Chats</a>
+                      <a [routerLink]="['/user/my-chats']" (click)="menu()" [routerLinkActiveOptions]="{exact: true}" routerLinkActive="rounded-sm dark:bg-blue-500 bg-blue-500 md:bg-blue-500 md:dark:bg-blue-500 md:text-white md:dark:text-black" class="dark:text-white text-black bg-white dark:bg-black hover:bg-slate-200 dark:hover:bg-gray-600 block px-2 py-1 md:px-2 md:py-1">My Chats</a>
                   </li>
                   <li class="index">
                       <a [routerLink]="['/user/friend-list']" (click)="menu()" [routerLinkActiveOptions]="{exact: true}" routerLinkActive="rounded-sm dark:bg-blue-500 bg-blue-500 md:bg-blue-500 md:dark:bg-blue-500 md:text-white md:dark:text-black" class="dark:text-white text-black bg-white dark:bg-black hover:bg-slate-200 dark:hover:bg-gray-600 block px-2 py-1 md:px-2 md:py-1">Friend list</a>
@@ -39,3 +44,7 @@
   </nav>
 </header>
 
+<mat-menu #profileMenu="matMenu">
+  <button [routerLink]="['/user/profile']" mat-menu-item><mat-icon class="mat-18">edit</mat-icon> Edit Profile</button>
+  <button mat-menu-item  (click)="logout()"><mat-icon class="mat-18">logout</mat-icon>Logout</button>
+</mat-menu>

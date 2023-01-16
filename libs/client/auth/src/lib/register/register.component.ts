@@ -57,7 +57,7 @@ export class RegisterComponent {
           this.router.navigateByUrl('/');
         },
         error: (err:any) => {
-          console.log({ err });
+          console.log(err);
         },
       });
   }

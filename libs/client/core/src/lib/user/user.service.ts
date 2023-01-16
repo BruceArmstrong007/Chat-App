@@ -42,6 +42,17 @@ export class UserService {
     )
   }
 
+  updateProfile(data:any){
+    return fromProcedure(this.client.user.updateUser.mutate)(data).pipe(
+      switchMap((response:any) => iif(() => response.status === 'SUCCESS', this.authService.getUser().pipe(map((res:any)=> (response))), (response))),
+    )
+  }
+
+  resetPassword(data:any){
+    return fromProcedure(this.client.user.resetPassword.mutate)(data).pipe(
+      switchMap((response:any) => iif(() => response.status === 'SUCCESS', this.authService.getUser().pipe(map((res:any)=> (response))), (response))),
+    )
+  }
 
   connectWs(id : any){
       const setMessage = (data: any) =>{

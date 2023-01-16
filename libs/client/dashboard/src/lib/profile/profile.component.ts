@@ -1,9 +1,9 @@
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService, UserService } from '@client/core';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { CommonModule, Location } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {MatIconModule} from '@angular/material/icon';
@@ -11,14 +11,14 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import {MatButtonModule} from '@angular/material/button';
 import {CustomValidationService, RequestHandlerService} from '@client/core';
 @Component({
-  selector: 'chat-app-reset-password',
+  selector: 'chat-app-profile',
   standalone: true,
-  imports: [CommonModule,MatFormFieldModule,MatInputModule,MatIconModule,ReactiveFormsModule,FormsModule,MatButtonModule],
-  templateUrl: './reset-password.component.html',
-  styleUrls: ['./reset-password.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [CommonModule,RouterModule,MatFormFieldModule,MatInputModule,MatIconModule,ReactiveFormsModule,FormsModule,MatButtonModule],
+  templateUrl: './profile.component.html',
+  styleUrls: ['./profile.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ResetPasswordComponent {
+export class ProfileComponent {
   private readonly formBuilder = inject(FormBuilder);
   private readonly customValidation = inject(CustomValidationService);
   private readonly authService = inject(AuthService);
@@ -27,18 +27,17 @@ export class ResetPasswordComponent {
   private readonly snackBar = inject(MatSnackBar);
   private readonly requestHandler = inject(RequestHandlerService);
   private readonly router = inject(Router);
-  resetForm!: FormGroup;
+  profileForm!: FormGroup;
   matchValidator = (control : any) => {
     return this.customValidation.MatchValidator(control,"password",'confirmPassword');
   }
 
 
   constructor(){
-    this.resetForm = this.formBuilder.group({
+    this.profileForm = this.formBuilder.group({
       id : [Validators.required],
       username : ['',Validators.compose([Validators.required,Validators.minLength(8),Validators.maxLength(15)])],
-      password : ['',Validators.compose([Validators.required,Validators.minLength(8),Validators.maxLength(32)])],
-      confirmPassword : ['',Validators.compose([Validators.required,Validators.minLength(8),Validators.maxLength(32)])]
+      image : ['',Validators.compose([])],
     },{
       validators : this.matchValidator
     });
@@ -46,8 +45,9 @@ export class ResetPasswordComponent {
 
   ngOnInit(){
     this.authService.$user.pipe(takeUntil(this.destroy$)).subscribe((user:any)=>{
-      this.resetForm.patchValue({
+      this.profileForm.patchValue({
         id : user?.id,
+        image : user?.image,
         username : user?.username
       });
     })
@@ -55,20 +55,19 @@ export class ResetPasswordComponent {
 
 
   get f(){
-    return (this.resetForm as FormGroup)?.controls;
+    return (this.profileForm as FormGroup)?.controls;
   }
 
   send(){
-    if(!this.resetForm.valid){
+    if(!this.profileForm.valid){
       return;
     }
-      this.userService.resetPassword(this.resetForm.getRawValue())
+      this.userService.updateProfile(this.profileForm.getRawValue())
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (data:any) => {
           const {message,options} = this.requestHandler.SuccessResponseHandler(data?.message,data?.status);
           this.snackBar.open(message,'Close',options);
-          this.router.navigate(['/'])
         },
         error: (err:any) => {
           console.log(err);

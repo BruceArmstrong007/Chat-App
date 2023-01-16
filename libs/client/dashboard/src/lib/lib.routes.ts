@@ -17,5 +17,13 @@ export const clientDashboardRoutes: Route[] = [
   {
     path: 'find-friend',
     loadComponent: () => import('./find-friend/find-friend.component').then(m => m.FindFriendComponent)
+  },
+  {
+    path: 'reset-password',
+    loadComponent: () => import('@client/auth').then(m => m.ResetPasswordComponent)
+  },
+  {
+    path: 'profile',
+    loadComponent: () => import('./profile/profile.component').then(m => m.ProfileComponent)
   }
 ];

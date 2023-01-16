@@ -1,0 +1,35 @@
+<div class="content flex justify-center items-center py-2">
+  <form [formGroup]="profileForm" #contact="ngForm" (ngSubmit)="send()" class="w-11/12 md:w-3/6 bg-gray-100 dark:bg-gray-700 shadow-md rounded-xl px-8 pt-6 pb-8 mb-4 text-slate-900 dark:text-slate-50 text-lg">
+    <div class="w-full flex justify-center items-center p-2">
+      <h2>Edit Profile</h2>
+    </div>
+    <div class="p-2">
+      <mat-form-field appearance="fill" class="w-full">
+        <mat-label>Username</mat-label>
+        <input matInput formControlName="username">
+        <mat-icon [ngClass]="{'text-blue-700' : !f['username'].valid, 'text-green-400' :  f['username'].valid}" matSuffix>account_circle</mat-icon>
+        <mat-hint>Enter your new username.</mat-hint>
+        <mat-error *ngIf="f['username'].hasError('required')">
+          Username is <strong>required</strong>
+        </mat-error>
+        <mat-error *ngIf="f['username'].hasError('minlength') || f['username'].hasError('maxlength')">
+          Username should have <strong>8 - 15 characters.</strong>
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="p-2">
+      <mat-form-field appearance="fill" class="w-full">
+        <mat-label>image URL</mat-label>
+        <input matInput formControlName="image">
+        <mat-icon [ngClass]="{'text-blue-700' : !f['image'].valid, 'text-green-400' :  f['image'].valid}" matSuffix>image</mat-icon>
+        <mat-hint>Enter your new image url.</mat-hint>
+      </mat-form-field>
+    </div>
+    <div class="w-full flex justify-center items-center p-2">
+     <a [routerLink]="['/user/reset-password']" routerLinkActive="router-link-active" ><sub class="text-blue-500 cursor-pointer underline">Do you want to reset your password?</sub></a>
+    </div>
+    <div class="w-full flex justify-center items-center p-2">
+      <button mat-flat-button color="primary" type="submit">Submit</button>
+    </div>
+  </form>
+  </div>

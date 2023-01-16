@@ -124,6 +124,23 @@ export const updateUserProcedure = protectedProcedure
     });
   }
 
+
+   //Finding user from DB
+   const user = await prisma.user.findFirst({
+    where : {
+      username : input.username
+    },
+    select : selectWithoutCredential
+  });
+
+  if(user && user?.username !== input?.username){
+    throw new TRPCError({
+      code : 'BAD_REQUEST',
+      message : 'User already exist, Try a different username.'
+    });
+  }
+
+
   //Updating user details in DB and getting user details without credentials
   const updatedUser = await prisma.user.update({
     where: {
@@ -137,7 +154,7 @@ export const updateUserProcedure = protectedProcedure
     select: selectWithoutCredential,
   });
 
-  return updatedUser;
+  return { status : "SUCCESS", message : "Profile updated successfully."};
 });
 
 
@@ -168,4 +185,48 @@ export const findUserProcedure = protectedProcedure
   });
 
   return user;
+});
+
+export const resetPasswordProcedure = protectedProcedure
+.input(
+  zod.object({
+    id : zod.number(),
+    username : zod.string().min(8).max(15),
+    password : zod.string().min(8).max(36),
+    confirmPassword : zod.string().min(8).max(36)
+  }).superRefine(({ confirmPassword, password }, ctx) => {
+    if (confirmPassword !== password) {
+      throw new TRPCError({
+        code : 'BAD_REQUEST',
+        message : 'Password didnot match, Try again.'
+      });
+    }
+  })
+)
+.mutation(async ({ctx,input})=>{
+
+  const {userPayload} = ctx;
+
+  if(!userPayload){
+    throw new TRPCError({
+      code : 'UNAUTHORIZED',
+      message : 'Unable to connect, login again.'
+    });
+  }
+
+  //Hash the password
+  const hashedPassword = await bcrypt.hash(input.password, SALT_ROUNDS);
+
+
+  //Create user in DB and return it without password
+  await prisma.user.update({
+    where : {
+    id : input.id,
+    },
+   data : {
+    password : hashedPassword
+    }
+  });
+
+  return { status : "SUCCESS", message : 'User password updated successfully.'};
 });

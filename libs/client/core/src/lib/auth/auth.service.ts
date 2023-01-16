@@ -45,8 +45,8 @@ export class AuthService {
     this.clearStorage();
   }
 
-  login(credential: Pick<User, 'username' | 'password'>) {
-    return fromProcedure(this.client.auth.login.query)(credential).pipe(
+  login(user: Pick<User, 'username' | 'password'>) {
+    return fromProcedure(this.client.auth.login.query)(user).pipe(
       tap((response:any) => {
         this.token.setAccessToken(response.token);
       }),
@@ -54,11 +54,11 @@ export class AuthService {
     );
   }
 
-  register(formValue: any){
+  register(user: any){
     return fromProcedure(this.client.user.register.mutate)({
-      username: formValue.username,
-      password: formValue.password,
-      confirmPassword : formValue.confirmPassword
+      username: user.username,
+      password: user.password,
+      confirmPassword : user.confirmPassword
     })
   }
 
