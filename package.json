@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "ng": "nx",
-    "start": "node dist/apps/server/main/src/main.ts",
+    "start": "node ./apps/server/src/main.ts",
     "postinstall": "node ./decorate-angular-cli.js",
     "db:migrate": "prisma migrate dev",
     "db:generate": "prisma generate",
