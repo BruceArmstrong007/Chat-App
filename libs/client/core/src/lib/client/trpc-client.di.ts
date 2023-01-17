@@ -2,12 +2,11 @@ import { Router } from '@angular/router';
 import { RequestHandlerService } from './../services/request-handler.service';
 import { inject, InjectionToken, Provider } from '@angular/core';
 import type { AppRouter } from '@server/trpc';
-import { createTRPCProxyClient, httpBatchLink, httpLink, splitLink } from '@trpc/client';
+import { createTRPCProxyClient, httpLink, splitLink } from '@trpc/client';
 import { createWSClient, wsLink } from '@trpc/client';
 import { injectConfig } from '../config/config.di';
 import { injectToken } from './token.di';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { AuthService } from '../auth/auth.service';
 
 // create persistent WebSocket connection
 export const wsClient = createWSClient({
