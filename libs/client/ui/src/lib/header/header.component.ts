@@ -1,6 +1,6 @@
 import { takeUntil, Subject } from 'rxjs';
 import { MatIconModule } from '@angular/material/icon';
-import {  ToggleService } from '@client/core';
+import {  NotificationService, ToggleService } from '@client/core';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterModule } from '@angular/router';
 import { ChangeDetectionStrategy, Component, ElementRef, ViewChild, inject, HostListener } from '@angular/core';
@@ -20,8 +20,10 @@ export class HeaderComponent {
   isLoggedIn = false;
   @ViewChild('mobileMenu', { read: ElementRef }) mobileMenu!: ElementRef;
   private readonly destroy$ : any = new Subject();
+  private readonly notificationService = inject(NotificationService);
+
   toggle = inject(ToggleService);
-  authService = inject(AuthService);
+  readonly authService = inject(AuthService);
   isMobile!: boolean;
   toggleMenu!:boolean;
   user : any;
@@ -30,7 +32,11 @@ export class HeaderComponent {
     this.onWindowResize();
     this.authService.$user.pipe(takeUntil(this.destroy$)).subscribe((user:any)=>{
       this.user = user;
-    })
+    });
+
+    this.notificationService.notify$.pipe(takeUntil(this.destroy$)).subscribe((notification:any)=>{
+      this.notificationService.notification(notification);
+    });
   }
 
   reload(){

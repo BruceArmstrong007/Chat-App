@@ -16,7 +16,7 @@ import { CommonModule } from '@angular/common';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FindFriendComponent {
-  friendList: any[] = [];
+  findList: any[] = [];
   addRequest$ : any = new Subject();
   findFriend$ : any = new Subject();
   changeDetection = inject(ChangeDetectorRef);
@@ -41,7 +41,7 @@ export class FindFriendComponent {
           const {message,options} = this.requestHandler.SuccessResponseHandler(data?.message,data?.status);
           this.snackBar.open(message,'Close',options);
 
-         this.friendList = this.friendList.map((user:any)=>{
+         this.findList = this.findList.map((user:any)=>{
             if(user.id === event.id){
               return {
                 ...user,
@@ -53,7 +53,7 @@ export class FindFriendComponent {
           this.changeDetection.detectChanges();
         },
         error: (err:any) => {
-          console.log({ err });
+          console.log(err);
         },
       });
         }
@@ -73,7 +73,7 @@ export class FindFriendComponent {
           const {message,options} = this.requestHandler.SuccessResponseHandler(data?.message,data?.status);
           this.snackBar.open(message,'Close',options);
 
-         this.friendList = this.friendList.map((user:any)=>{
+         this.findList = this.findList.map((user:any)=>{
           if(user.id === event.id){
             return {
               ...user,
@@ -85,7 +85,7 @@ export class FindFriendComponent {
         this.changeDetection.detectChanges();
         },
         error: (err:any) => {
-          console.log({ err });
+          console.log(err);
         },
       });
         }
@@ -95,7 +95,7 @@ export class FindFriendComponent {
 
     this.findFriend$.pipe(distinctUntilChanged()).subscribe((event:any)=>{
       if(!event){
-        this.friendList = [];
+        this.findList = [];
         return;
       }
       this.userService.findUser({username : event}).pipe(takeUntil(this.destroy$),
@@ -121,7 +121,7 @@ export class FindFriendComponent {
       }))
       .subscribe({
         next: (data:any) => {
-            this.friendList = data;
+            this.findList = data;
         },
         error: (err:any) => {
           console.log(err);

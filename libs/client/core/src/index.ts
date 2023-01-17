@@ -10,3 +10,4 @@ export * from './lib/services/request-handler.service';
 export * from './lib/services/prompt-handler.service';
 export * from './lib/user/user.service';
 export * from './lib/resolver/token.resolver';
+export * from './lib/user/notification.service';

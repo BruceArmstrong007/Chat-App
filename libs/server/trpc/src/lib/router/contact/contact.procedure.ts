@@ -1,3 +1,4 @@
+import { notificationEvent } from './../notification/notification.procedure';
 import * as zod from 'zod';
 import { PrismaClient} from '@prisma/client';
 import { TRPCError } from '@trpc/server';
@@ -41,6 +42,7 @@ export const addContactProcedure = protectedProcedure
     }
   });
 
+
   const acceptContact = await prisma.user.update({
     where: {
       id : input.contact_id
@@ -53,7 +55,13 @@ export const addContactProcedure = protectedProcedure
         },
       }
     }
-  })
+  });
+
+  notificationEvent.emit((input.contact_id).toString(),{
+    type : "notification",
+    category: "received",
+    message : "You have received a friend request."
+  });
 
   return {
     status : "SUCCESS",
@@ -115,7 +123,15 @@ export const acceptContactProcedure = protectedProcedure
         },
       }
     }
-  })
+  });
+
+
+
+  notificationEvent.emit((input.contact_id).toString(),{
+    type : "notification",
+    category: "accepted",
+    message : "Your friend request has been accepted."
+  });
 
   return {
     status : "SUCCESS",
@@ -168,7 +184,14 @@ export const deleteContactProcedure = protectedProcedure
         }]
       }
     }
-  })
+  });
+
+
+  notificationEvent.emit((input.contact_id).toString(),{
+    type : "notification",
+    category: "removed",
+    message : "User removed."
+  });
 
   return {
     status : "SUCCESS",

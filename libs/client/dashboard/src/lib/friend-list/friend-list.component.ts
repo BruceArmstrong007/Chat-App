@@ -57,7 +57,7 @@ ngAfterViewInit(){
           this.snackBar.open(message,'Close',options);
         },
         error: (err:any) => {
-          console.log({ err });
+          console.log(err);
         },
         });
         }
@@ -73,7 +73,7 @@ ngAfterViewInit(){
 
     this.cancelRequest$.subscribe((eventData:any)=>{
       const event = eventData?.event;
-      this.prompt.openDialog({title : 'Confirmation',description:'Do you want to cancel request ?'}).subscribe((result:any)=>{
+      this.prompt.openDialog({title : 'Confirmation',description:'Do you want to '+event.mode+'?'}).subscribe((result:any)=>{
         const contact_id = this.authService.currentUser()?.id;
         if(result && contact_id){
          this.userService.deleteUser({contact_id : event.id,user_id : contact_id})
@@ -84,7 +84,7 @@ ngAfterViewInit(){
           this.snackBar.open(message,'Close',options);
         },
         error: (err:any) => {
-          console.log({ err });
+          console.log(err);
         },
       });
         }

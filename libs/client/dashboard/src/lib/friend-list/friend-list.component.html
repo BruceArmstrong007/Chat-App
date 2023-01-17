@@ -6,10 +6,10 @@
   </div>
   <div class="w-full md:w-1/2 content p-4">
     <div class="w-full h-1/2 rounded-t-md bg-gray-100 dark:bg-gray-700 shadow-md  text-slate-900 dark:text-slate-50 text-lg">
-    <chat-app-list (cancelRequest)="cancelRequest$.next({event :$event, mode: 'sent'})" [section]="'Sent Requests'" [list]="sentList"></chat-app-list>
+    <chat-app-list (cancelRequest)="cancelRequest$.next({event :$event, mode: 'cancel'})" [section]="'Sent Requests'" [list]="sentList"></chat-app-list>
     </div>
     <div class="w-full h-1/2 rounded-b-md bg-gray-100 dark:bg-gray-700 shadow-md  text-slate-900 dark:text-slate-50 text-lg">
-      <chat-app-list (acceptRequest)="acceptRequest$.next($event)" (cancelRequest)="cancelRequest$.next({event :$event, mode: 'received'})"  [section]="'Received Requests'" [list]="receivedList"></chat-app-list>
+      <chat-app-list (acceptRequest)="acceptRequest$.next($event)" (cancelRequest)="cancelRequest$.next({event :$event, mode: 'cancel'})"  [section]="'Received Requests'" [list]="receivedList"></chat-app-list>
     </div>
   </div>
 </div>

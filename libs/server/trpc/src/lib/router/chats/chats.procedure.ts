@@ -7,7 +7,7 @@ import { observable } from '@trpc/server/observable';
 import { EventEmitter } from 'events';
 
 const prisma = new PrismaClient();
-const ee = new EventEmitter();
+const chatEvent = new EventEmitter();
 
   export const onChatProcedure = procedure.subscription(async(input) => {
   const temp : any = {...input};
@@ -18,10 +18,10 @@ const ee = new EventEmitter();
       emit.next(data);
     };
 
-     if(roomID) ee.on(roomID, onAdd);
+     if(roomID) chatEvent.on(roomID, onAdd);
 
     return () => {
-      if(roomID) ee.off(roomID, onAdd);
+      if(roomID) chatEvent.off(roomID, onAdd);
     };
   });
   });
@@ -52,7 +52,7 @@ export const chatProcedure = protectedProcedure
     }
   })
   // emiting to specific room id
-  ee.emit(input?.id, input);
+  chatEvent.emit(input?.id, input);
   return input;
 })
 

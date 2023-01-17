@@ -1,4 +1,4 @@
-import { ToggleService } from '@client/core';
+import {  ToggleService } from '@client/core';
 import { RouterModule } from '@angular/router';
 import { FooterComponent } from './../footer/footer.component';
 import { HeaderComponent } from './../header/header.component';
@@ -16,5 +16,4 @@ import { CommonModule } from '@angular/common';
 export class LayoutComponent {
   toggle = inject(ToggleService);
 
- 
 }

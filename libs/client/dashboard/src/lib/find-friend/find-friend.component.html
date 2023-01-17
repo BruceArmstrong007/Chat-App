@@ -1,7 +1,7 @@
 <div class="flex items-center justify-center">
   <div class="w-full md:w-1/2 content p-4">
     <div class="w-full h-full rounded-md bg-gray-100 dark:bg-gray-700 shadow-md  text-slate-900 dark:text-slate-50 text-lg">
-      <chat-app-list [section]="'Find Friends'" [list]="friendList" (cancelRequest)="cancelRequest$.next($event)" (addFriend)="addRequest$.next($event)" (findFriend)="findFriend$.next($event)"></chat-app-list>
+      <chat-app-list [section]="'Find Friends'" [list]="findList" (cancelRequest)="cancelRequest$.next($event)" (addFriend)="addRequest$.next($event)" (findFriend)="findFriend$.next($event)"></chat-app-list>
     </div>
   </div>
 </div>
