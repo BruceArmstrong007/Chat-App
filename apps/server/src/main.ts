@@ -48,6 +48,9 @@ app.use(
   })
 );
 
+app.get('/',()=>{
+  return "Hello"
+})
 
 const port = process.env.port || process.env.SERVER_PORT;
 const server = app.listen(port, () => {
