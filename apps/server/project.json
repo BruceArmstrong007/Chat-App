@@ -12,7 +12,7 @@
       "options": {
         "target": "node",
         "compiler": "tsc",
-        "outputPath": "src/apps/server",
+        "outputPath": "dist/apps/server",
         "main": "apps/server/src/main.ts",
         "tsConfig": "apps/server/tsconfig.app.json",
         "assets": [
