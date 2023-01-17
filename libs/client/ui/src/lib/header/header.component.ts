@@ -18,6 +18,7 @@ import {MatMenuModule} from '@angular/material/menu';
 })
 export class HeaderComponent {
   isLoggedIn = false;
+  notifications : any = [];
   @ViewChild('mobileMenu', { read: ElementRef }) mobileMenu!: ElementRef;
   private readonly destroy$ : any = new Subject();
   private readonly notificationService = inject(NotificationService);
@@ -36,6 +37,9 @@ export class HeaderComponent {
 
     this.notificationService.notify$.pipe(takeUntil(this.destroy$)).subscribe((notification:any)=>{
       this.notificationService.notification(notification);
+      if(notification?.mode === 'accepted' || notification?.mode === 'received'){
+        this.notifications = [...this.notifications,notification];
+      }
     });
   }
 

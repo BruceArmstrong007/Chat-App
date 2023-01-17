@@ -16,12 +16,18 @@
               <a *ngIf="!authService.isUserLoggedIn()" [routerLink]="['/login']" routerLinkActive="hidden" mat-button><span class="dark:text-white">Login</span></a>
               <a  *ngIf="!authService.isUserLoggedIn()" [routerLink]="['/register']" routerLinkActive="hidden" mat-flat-button color="primary">Register</a>
 
+              <button *ngIf="authService.isUserLoggedIn()" [ngStyle]="{'background': 'transparent', 'transform': 'scale(0.6)'}" mat-mini-fab [matMenuTriggerFor]="notifyMenu">
+                <span class="sr-only">notifications</span>
+                <mat-icon>notifications</mat-icon>
+              </button>
+
+
               <button *ngIf="authService.isUserLoggedIn() && isMobile" [ngStyle]="{'background': 'transparent', 'transform': 'scale(0.8)'}" (click)="menu()" mat-mini-fab >
                 <span class="sr-only">Open menu</span>
                 <mat-icon>menu</mat-icon>
               </button>
 
-              <button *ngIf="authService.isUserLoggedIn()" [ngStyle]="{'background': 'transparent'}" [matMenuTriggerFor]="profileMenu" type="button" mat-mini-fab>
+              <button *ngIf="authService.isUserLoggedIn()" [ngStyle]="{'background': 'transparent', 'transform': 'scale(0.8)'}" [matMenuTriggerFor]="profileMenu" type="button" mat-mini-fab>
                 <img class="rounded-xl" alt="" [src]="user?.image ? user?.image : './assets/images/default.png'">
               </button>
           </div>
@@ -45,4 +51,17 @@
 <mat-menu #profileMenu="matMenu">
   <button [routerLink]="['/user/profile']" mat-menu-item><mat-icon class="mat-18">edit</mat-icon> Edit Profile</button>
   <button mat-menu-item  (click)="logout()"><mat-icon class="mat-18">logout</mat-icon>Logout</button>
+</mat-menu>
+
+<mat-menu  #notifyMenu="matMenu">
+  <div class="notification-box" *ngIf="notifications.length > 0;else notifyElse">
+    <ng-container *ngFor="let notify of notifications">
+      <a  [routerLink]="['/user/friend-list']" mat-menu-item>{{notify?.message}}</a>
+    </ng-container>
+  </div>
+  <ng-template #notifyElse>
+    <div class="notification-box no-notification">
+      <sub class="text-grey-500">No notifications found</sub>
+    </div>
+  </ng-template>
 </mat-menu>
