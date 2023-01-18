@@ -10,7 +10,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 
 // create persistent WebSocket connection
 export const wsClient = createWSClient({
-  url: `ws://chat-app-3lv6.onrender.com:3001`,
+  url: `wss://chat-app-3lv6.onrender.com:3001`,
 });
 
 const TRPC_PROVIDER = new InjectionToken<ReturnType<typeof createTRPCProxyClient<AppRouter>>>('__TRPC_PROVIDER__');
