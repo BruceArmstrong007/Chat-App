@@ -38,7 +38,7 @@ app.use(Helmet());
 
 app.use(ROUTES.ASSETS, express.static(path.join(__dirname, 'assets')));
 
-app.use(cors({ credentials: true, origin: process.env.WEB_CLIENT_URL }));
+app.use(cors({ credentials: true, origin: '*' }));
 app.use(cookieParser());
 
 app.use(
