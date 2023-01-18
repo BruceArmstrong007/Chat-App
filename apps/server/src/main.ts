@@ -52,10 +52,10 @@ app.use(
     createContext,
   })
 );
+app.get('/', async () => {
+  return { hello: 'wait-on 💨' };
+});
 
-app.get('/',()=>{
-  return {message : "Hello"}
-})
 
 const port = process.env.port || process.env.SERVER_PORT;
 const server = app.listen(port, () => {
