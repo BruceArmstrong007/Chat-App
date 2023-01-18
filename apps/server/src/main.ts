@@ -38,7 +38,6 @@ app.use(ROUTES.ASSETS, express.static(path.join(__dirname, 'assets')));
 
 app.use(cors({
   origin: [process.env.WEB_CLIENT_URL],
-  allowedHeaders: "*"
  }));
 
 
