@@ -6,8 +6,8 @@ import * as cookieParser from 'cookie-parser';
 import * as trpcExpress from '@trpc/server/adapters/express';
 import { createContext,appRouter } from '@server/trpc';
 
-import { applyWSSHandler } from '@trpc/server/adapters/ws';
-import * as ws from 'ws';
+// import { applyWSSHandler } from '@trpc/server/adapters/ws';
+// import * as ws from 'ws';
 
 // const wss = new ws.Server({
 //   port: 3001,
