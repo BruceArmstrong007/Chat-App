@@ -50,7 +50,7 @@ app.use(cors({
   res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT,DELETE");
   res.header(
     "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept, Set-Cookie"
+    "Origin, X-Requested-With, Content-Type, Accept, Set-Cookie,Cookie"
   );  next();
 });
 
