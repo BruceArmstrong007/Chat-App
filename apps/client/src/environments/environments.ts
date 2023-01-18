@@ -1,4 +1,4 @@
 export const environment = {
   production: false,
-  apiURL: 'http://localhost:3333/api'
+  apiURL: 'https://chat-app-3lv6.onrender.com/api'
 };
