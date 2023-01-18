@@ -58,13 +58,13 @@ app.use(cors({
 app.use(cookieParser());
 
 
-app.use(
-  ROUTES.API,
-  trpcExpress.createExpressMiddleware({
-    router: appRouter,
-    createContext,
-  })
-);
+// app.use(
+//   ROUTES.API,
+//   trpcExpress.createExpressMiddleware({
+//     router: appRouter,
+//     createContext,
+//   })
+// );
 
 app.get('/',async(req,res)=>{
   return res.send('Hello');
