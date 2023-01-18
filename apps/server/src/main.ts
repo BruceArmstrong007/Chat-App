@@ -1,13 +1,13 @@
 import * as express from 'express';
-// import * as path from 'path';
-// import Helmet  from 'helmet';
-// import * as cors from 'cors';
-// import * as cookieParser from 'cookie-parser';
-// import * as trpcExpress from '@trpc/server/adapters/express';
-// import { createContext,appRouter } from '@server/trpc';
+import * as path from 'path';
+import Helmet  from 'helmet';
+import * as cors from 'cors';
+import * as cookieParser from 'cookie-parser';
+import * as trpcExpress from '@trpc/server/adapters/express';
+import { createContext,appRouter } from '@server/trpc';
 
-// import { applyWSSHandler } from '@trpc/server/adapters/ws';
-// import * as ws from 'ws';
+import { applyWSSHandler } from '@trpc/server/adapters/ws';
+import * as ws from 'ws';
 
 // const wss = new ws.Server({
 //   port: 3001,
@@ -29,29 +29,29 @@ import * as express from 'express';
 
 const app = express();
 
-// const ROUTES = {
-//   ASSETS: '/assets',
-//   API: '/api',
-// };
+const ROUTES = {
+  ASSETS: '/assets',
+  API: '/api',
+};
 
-// app.use(Helmet());
+app.use(Helmet());
 
-// app.use(ROUTES.ASSETS, express.static(path.join(__dirname, 'assets')));
+app.use(ROUTES.ASSETS, express.static(path.join(__dirname, 'assets')));
 
-// app.use(cors({credentials : true , origin :process.env.WEB_CLIENT_URL}));
-
-
-
-// app.use(cookieParser());
+app.use(cors({credentials : true , origin :process.env.WEB_CLIENT_URL}));
 
 
-// app.use(
-//   ROUTES.API,
-//   trpcExpress.createExpressMiddleware({
-//     router: appRouter,
-//     createContext,
-//   })
-// );
+
+app.use(cookieParser());
+
+
+app.use(
+  ROUTES.API,
+  trpcExpress.createExpressMiddleware({
+    router: appRouter,
+    createContext,
+  })
+);
 app.get('/', async (req,res) => {
   return res.send('hello');
 });
