@@ -20,7 +20,7 @@ wss.on('connection', (ws) => {
     console.log(`➖➖ Connection (${wss.clients.size})`);
   });
 });
-console.log('✅ WebSocket Server listening on wss://localhost:3001');
+console.log('✅ WebSocket Server listening on ws://localhost:3001');
 process.on('SIGTERM', () => {
   console.log('SIGTERM');
   handler.broadcastReconnectNotification();
@@ -38,9 +38,18 @@ app.use(Helmet());
 
 app.use(ROUTES.ASSETS, express.static(path.join(__dirname, 'assets')));
 
-app.use(cors({credentials : true , origin :process.env.WEB_CLIENT_URL}));
+app.use(cors({
+  origin: [process.env.WEB_CLIENT_URL],
+  allowedHeaders: "*",
+  credentials: true
+ }));
 
 
+ app.use((req, res, next) =>{
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Credentials", '*');
+  next();
+});
 
 app.use(cookieParser());
 
@@ -52,13 +61,13 @@ app.use(
     createContext,
   })
 );
-app.get('/', async (req,res) => {
-  return res.send('hello');
-});
 
+app.get('/',async(req,res)=>{
+  return res.send('Hello');
+});
 
 const port = process.env.port || process.env.SERVER_PORT;
 const server = app.listen(port, () => {
-  console.log(`Listening at http://localhost:${port}`);
+  console.log(`Listening at http://localhost:${port}/api`);
 });
 server.on('error', console.error);
