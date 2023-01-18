@@ -7,20 +7,18 @@ import { createWSClient, wsLink } from '@trpc/client';
 import { injectConfig } from '../config/config.di';
 import { injectToken } from './token.di';
 import { MatSnackBar } from '@angular/material/snack-bar';
-
 // create persistent WebSocket connection
 
-const config = injectConfig();
-
-export const wsClient = createWSClient({
-  url: config.WS_URL,
-});
 const TRPC_PROVIDER = new InjectionToken<ReturnType<typeof createTRPCProxyClient<AppRouter>>>('__TRPC_PROVIDER__');
 export const injectClient = () => inject(TRPC_PROVIDER);
 export const provideClient = (): Provider => ({
   provide: TRPC_PROVIDER,
   useFactory: () => {
+    const config = injectConfig();
     const token = injectToken();
+    const wsClient = createWSClient({
+      url: config.WS_URL,
+    });
     const responseHandler = inject(RequestHandlerService);
     const snackBar = inject(MatSnackBar);
     const router = inject(Router);
