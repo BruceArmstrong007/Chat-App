@@ -16,15 +16,15 @@
               <a *ngIf="!authService.isUserLoggedIn()" [routerLink]="['/login']" routerLinkActive="hidden" mat-button><span class="dark:text-white">Login</span></a>
               <a  *ngIf="!authService.isUserLoggedIn()" [routerLink]="['/register']" routerLinkActive="hidden" mat-flat-button color="primary">Register</a>
 
-              <button *ngIf="authService.isUserLoggedIn()" [ngStyle]="{'background': 'transparent', 'transform': 'scale(0.6)'}" mat-mini-fab [matMenuTriggerFor]="notifyMenu">
+              <button  *ngIf="authService.isUserLoggedIn()" (click)="hideBadge()" [ngStyle]="{'background': 'transparent', 'transform': 'scale(0.6)'}" mat-mini-fab [matMenuTriggerFor]="notifyMenu">
                 <span class="sr-only">notifications</span>
-                <mat-icon>notifications</mat-icon>
+                <mat-icon [matBadgeHidden]="badgeHidden" matBadge="💡" class="text-black dark:text-white">notifications</mat-icon>
               </button>
 
 
               <button *ngIf="authService.isUserLoggedIn() && isMobile" [ngStyle]="{'background': 'transparent', 'transform': 'scale(0.8)'}" (click)="menu()" mat-mini-fab >
                 <span class="sr-only">Open menu</span>
-                <mat-icon>menu</mat-icon>
+                <mat-icon class="text-black dark:text-white">menu</mat-icon>
               </button>
 
               <button *ngIf="authService.isUserLoggedIn()" [ngStyle]="{'background': 'transparent', 'transform': 'scale(0.8)'}" [matMenuTriggerFor]="profileMenu" type="button" mat-mini-fab>

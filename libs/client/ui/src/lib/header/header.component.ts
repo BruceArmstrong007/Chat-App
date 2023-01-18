@@ -6,18 +6,20 @@ import { RouterModule } from '@angular/router';
 import { ChangeDetectionStrategy, Component, ElementRef, ViewChild, inject, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '@client/core';
+import {MatBadgeModule} from '@angular/material/badge';
 import {MatMenuModule} from '@angular/material/menu';
 
 @Component({
   selector: 'chat-app-header',
   standalone: true,
-  imports: [CommonModule,RouterModule,MatButtonModule,MatIconModule,MatMenuModule],
+  imports: [CommonModule,RouterModule,MatButtonModule,MatIconModule,MatMenuModule,MatBadgeModule],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeaderComponent {
   isLoggedIn = false;
+  badgeHidden = true;
   notifications : any = [];
   @ViewChild('mobileMenu', { read: ElementRef }) mobileMenu!: ElementRef;
   private readonly destroy$ : any = new Subject();
@@ -39,6 +41,7 @@ export class HeaderComponent {
       this.notificationService.notification(notification);
       if(notification?.mode === 'accepted' || notification?.mode === 'received'){
         this.notifications = [...this.notifications,notification];
+        this.badgeHidden = false;
       }
     });
   }
@@ -59,6 +62,10 @@ export class HeaderComponent {
 
   logout(){
     this.authService.logout();
+   }
+
+   hideBadge(){
+    this.badgeHidden = true;
    }
 
    @HostListener('window:resize', ['$event'])
