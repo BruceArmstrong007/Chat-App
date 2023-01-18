@@ -18,7 +18,8 @@ bootstrapApplication(AppComponent, {
   providers: [
     provideRouter(appRoutes, withEnabledBlockingInitialNavigation()),
     provideCore({
-    "API_URL": environment.apiURL
+    "API_URL": environment.apiURL,
+    "WS_URL": environment.wsURL
     }),
     importProvidersFrom(BrowserAnimationsModule,MatSnackBarModule)
   ],
