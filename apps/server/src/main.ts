@@ -1,5 +1,6 @@
 import * as express from 'express';
 import * as path from 'path';
+import Helmet  from 'helmet';
 import * as cors from 'cors';
 import * as cookieParser from 'cookie-parser';
 import * as trpcExpress from '@trpc/server/adapters/express';
@@ -33,7 +34,7 @@ const ROUTES = {
   API: '/api',
 };
 
-
+app.use(Helmet());
 
 app.use(ROUTES.ASSETS, express.static(path.join(__dirname, 'assets')));
 
@@ -49,7 +50,7 @@ app.use(
 );
 
 app.get('/',()=>{
-  return "Hello"
+  return {message : "Hello"}
 })
 
 const port = process.env.port || process.env.SERVER_PORT;
