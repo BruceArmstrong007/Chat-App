@@ -2,7 +2,6 @@ import { inject, Injectable } from '@angular/core';
 import { Contacts, User } from '@prisma/client';
 import { map, switchMap, iif, Subject } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
-import { wsClient } from '../client/trpc-client.di';
 import { fromProcedure } from '../client/utils';
 import { injectClient } from '../core.di';
 
@@ -70,7 +69,7 @@ export class UserService {
       },
     });
 
-    wsClient.close();
+    //wsClient.close();
   }
 
   chat(data:any){
