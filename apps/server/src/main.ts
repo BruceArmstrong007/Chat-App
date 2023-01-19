@@ -39,18 +39,17 @@ app.use(ROUTES.ASSETS, express.static(path.join(__dirname, 'assets')));
 app.use(cors({
   origin: [process.env.WEB_CLIENT_URL],
   credentials : true,
-  allowedHeaders : '*'
  }));
 
 
-//  app.use((req, res, next)=>{
-//   res.header("Access-Control-Allow-Credentials", 'true');
-//   res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT,DELETE");
-//   res.header(
-//     "Access-Control-Allow-Headers",
-//     "Origin, X-Requested-With, Content-Type, Accept, Set-Cookie,Cookie"
-//   );  next();
-// })
+ app.use((req, res, next)=>{
+  res.header("Access-Control-Allow-Credentials", 'true');
+  res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT,DELETE");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept, Set-Cookie,Cookie"
+  );  next();
+})
 
 
 
