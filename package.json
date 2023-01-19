@@ -22,6 +22,7 @@
     "@angular/platform-browser-dynamic": "~15.0.0",
     "@angular/router": "~15.0.0",
     "@nrwl/angular": "15.4.5",
+    "@nrwl/cli": "^15.5.2",
     "@prisma/client": "^4.8.1",
     "@trpc/client": "^10.8.2",
     "@trpc/server": "^10.8.2",
