@@ -36,25 +36,27 @@ const ROUTES = {
 
 app.use(ROUTES.ASSETS, express.static(path.join(__dirname, 'assets')));
 
+
+app.use(Helmet());
+
 app.use(cors({
-  origin: [process.env.WEB_CLIENT_URL],
+  origin: process.env.WEB_CLIENT_URL,
   credentials : true,
  }));
 
 
- app.use((req, res, next)=>{
-  res.header("Access-Control-Allow-Origin", process.env.WEB_CLIENT_URL);
-  res.header("Access-Control-Allow-Credentials", 'true');
-  res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT,DELETE");
-  res.header(
-    "Access-Control-Allow-Headers",
-    "X-HTTP-Method-Override, Accept, Origin, X-Requested-With, Content-Type, Accept, Set-Cookie, Cookie"
-  );  next();
-})
+//  app.use((req, res, next)=>{
+//   res.header("Access-Control-Allow-Origin", process.env.WEB_CLIENT_URL);
+//   res.header("Access-Control-Allow-Credentials", 'true');
+//   res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT,DELETE");
+//   res.header(
+//     "Access-Control-Allow-Headers",
+//     "X-HTTP-Method-Override, Accept, Origin, X-Requested-With, Content-Type, Accept, Set-Cookie, Cookie"
+//   );  next();
+// })
 
 
 
- app.use(Helmet());
 
 app.use(cookieParser());
 
