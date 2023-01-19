@@ -6,26 +6,26 @@ import * as cookieParser from 'cookie-parser';
 import * as trpcExpress from '@trpc/server/adapters/express';
 import { createContext,appRouter } from '@server/trpc';
 
-import { applyWSSHandler } from '@trpc/server/adapters/ws';
-import * as ws from 'ws';
+// import { applyWSSHandler } from '@trpc/server/adapters/ws';
+// import * as ws from 'ws';
 
-const wss = new ws.Server({
-  port: 3001,
-});
-const handler = applyWSSHandler({ wss, router: appRouter, createContext });
+// const wss = new ws.Server({
+//   port: 3001,
+// });
+// const handler = applyWSSHandler({ wss, router: appRouter, createContext });
 
-wss.on('connection', (ws) => {
-  console.log(`➕➕ Connection (${wss.clients.size})`);
-  ws.once('close', () => {
-    console.log(`➖➖ Connection (${wss.clients.size})`);
-  });
-});
-console.log('✅ WebSocket Server listening on ws://localhost:3001');
-process.on('SIGTERM', () => {
-  console.log('SIGTERM');
-  handler.broadcastReconnectNotification();
-  wss.close();
-});
+// wss.on('connection', (ws) => {
+//   console.log(`➕➕ Connection (${wss.clients.size})`);
+//   ws.once('close', () => {
+//     console.log(`➖➖ Connection (${wss.clients.size})`);
+//   });
+// });
+// console.log('✅ WebSocket Server listening on ws://localhost:3001');
+// process.on('SIGTERM', () => {
+//   console.log('SIGTERM');
+//   handler.broadcastReconnectNotification();
+//   wss.close();
+// });
 
 const app = express();
 
@@ -41,7 +41,7 @@ app.use(cors({
  }));
 
 
-//  app.use(Helmet());
+ app.use(Helmet());
 
  app.use((req, res, next) =>{
   res.header("Access-Control-Allow-Origin", process.env.WEB_CLIENT_URL);
