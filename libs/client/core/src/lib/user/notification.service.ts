@@ -1,6 +1,7 @@
 import { Subject } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
 import { injectClient } from './../client/trpc-client.di';
+import { wsClient } from './../client/trpc-client.di';
 import { inject, Injectable } from '@angular/core';
 
 @Injectable({
@@ -30,7 +31,7 @@ export class NotificationService {
       subscription.unsubscribe();
     },
   });
- // wsClient.close();
+ wsClient.close();
 }
 
   notification(data : any){

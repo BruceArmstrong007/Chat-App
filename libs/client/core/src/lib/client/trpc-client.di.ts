@@ -9,6 +9,10 @@ import { injectToken } from './token.di';
 import { MatSnackBar } from '@angular/material/snack-bar';
 // create persistent WebSocket connection
 
+export const wsClient = createWSClient({
+  url: 'wss://chat-app-3lv6.onrender.com',
+});
+
 const TRPC_PROVIDER = new InjectionToken<ReturnType<typeof createTRPCProxyClient<AppRouter>>>('__TRPC_PROVIDER__');
 export const injectClient = () => inject(TRPC_PROVIDER);
 export const provideClient = (): Provider => ({
@@ -16,9 +20,6 @@ export const provideClient = (): Provider => ({
   useFactory: () => {
     const config = injectConfig();
     const token = injectToken();
-    const wsClient = createWSClient({
-      url: config.WS_URL,
-    });
     const responseHandler = inject(RequestHandlerService);
     const snackBar = inject(MatSnackBar);
     const router = inject(Router);
