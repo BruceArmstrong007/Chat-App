@@ -49,7 +49,7 @@ export const loginProcedure = procedure
 
   //Generate and attach refresh token with response
   const refreshToken = jwt.sign({ id: user.id }, 'REFRESH_SECRET', { expiresIn: 60 * 60 * 24 });
-  ctx.res.cookie('refreshToken', refreshToken, { secure:true, httpOnly: true, domain : process.env.WEB_CLIENT_URL });
+  ctx.res.cookie('refreshToken', refreshToken, { secure:true, httpOnly: true });
 
   //Saving refresh token in DB
   await prisma.user.update({
@@ -88,7 +88,7 @@ export const logoutProcedure = protectedProcedure
   });
 
   //Update refresh token in response
-  ctx.res.cookie('refreshToken','deleted',{secure : true, httpOnly:true,expires: new Date(0), domain : process.env.WEB_CLIENT_URL})
+  ctx.res.cookie('refreshToken','deleted',{secure : true, httpOnly:true,expires: new Date(0)})
   return {status : 'SUCCESS', message: "Logged out successfully."}
 });
 
@@ -140,7 +140,7 @@ export const accessTokenProcedure = procedure
   });
 
   //Send new refresh token as cookie in response
-  ctx.res.cookie('refreshToken', newRefreshToken, { secure: true, httpOnly: true, domain : process.env.WEB_CLIENT_URL });
+  ctx.res.cookie('refreshToken', newRefreshToken, { secure: true, httpOnly: true });
 
   return {
     token,
