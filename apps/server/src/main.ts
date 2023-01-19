@@ -41,7 +41,7 @@ app.use(cors({
  }));
 
 
- app.use(Helmet());
+//  app.use(Helmet());
 
  app.use((req, res, next) =>{
   res.header("Access-Control-Allow-Origin", process.env.WEB_CLIENT_URL);
