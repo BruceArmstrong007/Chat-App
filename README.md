@@ -31,7 +31,24 @@
 <img width="960" alt="landingpage" src="https://user-images.githubusercontent.com/48177059/213621162-189d6d0c-0c1b-4072-b385-87f561d10350.png">
 <img width="960" alt="registerpage" src="https://user-images.githubusercontent.com/48177059/213621167-74607e1f-98f1-4a96-a399-5bd71fc4ec0d.png">
 
+# NX Commands
+Express NX Server
+npx nx generate @nrwl/express:application server --frontendProject=client --tags=scope:chat-app,type:server --no-interactive
 
+Express NX Library
+ npx nx generate @nrwl/node:library trpc --directory=server/trpc --importPath=@server/trpc --js --strict --tags=scope:server,type:trpc --testEnvironment=node --no-interactive 
+
+Standalone NX Application
+npx nx generate @nrwl/angular:application client --addTailwind --backendProject=server --e2eTestRunner=none --inlineStyle --inlineTemplate --routing --skipTests --standalone --standaloneConfig --tags=scope:chat-app,type:client --no-interactive 
+
+Standalone NX Library - Component
+npx nx generate @nrwl/angular:library core --directory=client --changeDetection=OnPush --importPath=@client/core --inlineStyle --inlineTemplate --lazy --routing --simpleModuleName --standalone --tags=scope:client,type:core --no-interactive  
+
+Standalone NX Library - Module
+npx nx generate @nrwl/angular:library core --style=none --directory=client --importPath=@client/core --simpleModuleName --tags=scope:client,type:core --no-interactive
+
+Standalone NX Component
+npx nx generate @nrwl/angular:component header --project=ui --changeDetection=OnPush --skipImport --standalone --no-interactive 
 
 
 # ChatApp
