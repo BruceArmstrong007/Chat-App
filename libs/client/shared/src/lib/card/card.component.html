@@ -7,8 +7,8 @@
      </div>
    </div>
    <div *ngIf="card?.message" class="p-1">
-      <sub class="text-xs">{{card?.created_at | date : 'short'}}</sub>
-      <p class="text-md">{{card?.message}}</p>
+      <sub class="text-xs text-white">{{card?.created_at | date : 'short'}}</sub>
+      <p class="text-md text-white">{{card?.message}}</p>
    </div>
    <div *ngIf="section === 'Friends'" class="flex justify-evenly items-center">
     <button (click)="unfriend.emit(card)" mat-mini-fab [ngStyle]="{'transform': 'scale(0.6)','background-color': 'red'}"><mat-icon>close</mat-icon></button>
