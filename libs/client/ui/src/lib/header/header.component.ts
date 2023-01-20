@@ -39,7 +39,7 @@ export class HeaderComponent {
 
     this.notificationService.notify$.pipe(takeUntil(this.destroy$)).subscribe((notification:any)=>{
       this.notificationService.notification(notification);
-      if(notification?.mode === 'accepted' || notification?.mode === 'received'){
+      if(notification?.category === 'accepted' || notification?.category === 'received'){
         this.notifications = [...this.notifications,notification];
         this.badgeHidden = false;
       }

@@ -19,7 +19,9 @@ export class DashboardComponent {
 
   ngOnInit(){
     this.authService.$user.pipe(takeUntil(this.destroy$)).subscribe((user:any)=>{
+      if(user?.id){
       this.notificationService.connectWs(user?.id);
+      }
     })
   }
 
