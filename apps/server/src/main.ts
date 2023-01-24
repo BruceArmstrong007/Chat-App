@@ -1,6 +1,5 @@
 import * as express from 'express';
 import * as path from 'path';
-import Helmet  from 'helmet';
 import * as cors from 'cors';
 import * as cookieParser from 'cookie-parser';
 import * as trpcExpress from '@trpc/server/adapters/express';
